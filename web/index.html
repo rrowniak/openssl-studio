@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenSSL Studio</title>
+    <link href="web/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="web/bootstrap.min.js"></script>
+    <script src="web/main.js"></script>
+</head>
+
+<body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#diag"
+                type="button" role="tab" aria-controls="diag" aria-selected="true">Diagnostics</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#x509" type="button" role="tab"
+                aria-controls="x509" aria-selected="false">x509</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tls" type="button" role="tab"
+                aria-controls="tls" aria-selected="false">Tls</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="diag" role="tabpanel" aria-labelledby="diag-tab">
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>OpenSSL diagnostics</h2>
+                </div>
+
+                <div class="row gx-4">
+                    <div class="col-sm-5">
+                        <div class="row py-2">
+                            <span class="border py-2">
+                                <h4>OpenSSL version</h4>
+                                <pre><small><code id="diag_version_code"></code></small></pre>
+                                <div id="diag_version"></div>
+                            </span>
+                        </div>
+                        <div class="row py-2">
+                            <span class="border py-2">
+                                <h4>Trusted certificates path</h4>
+                                <pre><small><code id="diag_trust_cert_path_code"></code></small></pre>
+                                <div id="diag_trust_cert_path"></div>
+                            </span>
+                        </div>
+                        <div class="row py-2">
+                            <span class="border py-2">
+                                <h4>Trusted certificates path content</h4>
+                                <pre><small><code>ls -l</code></small></pre>
+                                <div id="diag_trust_cert_path_cont"></div>
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-7">
+                        <h4>OpenSSL supported ciphers</h4>
+                        <pre><small><code id="diag_ciphers_code"></code></small></pre>
+                        <div id="diag_ciphers"></div>
+                        <table class="table" id="diag_ciphers_table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Cipher</th>
+                                    <th scope="col">TLS version</th>
+                                    <th scope="col">Kx</th>
+                                    <th scope="col">Au</th>
+                                    <th scope="col">Enc</th>
+                                    <th scope="col">Mac</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--<tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <button onclick="fetchDiagData()" type="submit" class="btn btn-primary">Re-generate</button>
+        </div>
+
+        <div class="tab-pane fade" id="x509" role="tabpanel" aria-labelledby="x509-tab">
+            <h1>x509 stuff</h1>
+            <button onclick="fetchData()">Generate</button>
+            <div id="message"></div>
+        </div>
+
+        <div class="tab-pane fade" id="tls" role="tabpanel" aria-labelledby="tls-tab">
+            <h1>TLS Stuff</h1>
+            <button onclick="fetchData()">Generate</button>
+            <div id="other"></div>
+        </div>
+    </div>
+    <!-- <script src="web/jquery-3.7.1.min.js"></script> -->
+    <!-- <script src="web/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+</body>
+
+</html>
