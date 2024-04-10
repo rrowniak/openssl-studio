@@ -7,7 +7,10 @@
     <title>OpenSSL Studio</title>
     <link href="web/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script src="web/bootstrap.min.js"></script>
-    <script src="web/main.js"></script>
+    <script src="web/common.js"></script>
+    <script src="web/diags.js"></script>
+    <script src="web/keygen.js"></script>
+    <script src="web/onload.js"></script>
 </head>
 
 <body class="p-3 m-0 border-0 bd-example m-0 border-0">
@@ -17,8 +20,24 @@
                 type="button" role="tab" aria-controls="diag" aria-selected="true">Diagnostics</a>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#x509" type="button" role="tab"
-                aria-controls="x509" aria-selected="false">x509</a>
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#key-gen" type="button" role="tab"
+                aria-controls="key-gen" aria-selected="false">Key generator</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#x509-Validate" type="button" role="tab"
+                aria-controls="x509-Validate" aria-selected="false">x509 Validate</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#x509-self-signed" type="button" role="tab"
+                aria-controls="x509-self-signed" aria-selected="false">x509 self-signed cert</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#x509-CA-signed" type="button" role="tab"
+                aria-controls="x509-CA-signed" aria-selected="false">x509 CA signed cert</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#x509-CRL" type="button" role="tab"
+                aria-controls="x509-CRL" aria-selected="false">x509 CRL</a>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tls" type="button" role="tab"
@@ -27,12 +46,14 @@
     </ul>
 
     <div class="tab-content" id="myTabContent">
+
+        <!-- TAB Diagnostics-->
         <div class="tab-pane fade show active" id="diag" role="tabpanel" aria-labelledby="diag-tab">
             <div class="container-fluid">
                 <div class="row">
                     <h2>OpenSSL diagnostics</h2>
+                    <button onclick="fetchDiagData()" type="submit" class="btn btn-primary">Re-generate</button>
                 </div>
-
                 <div class="row gx-4">
                     <div class="col-sm-5">
                         <div class="row py-2">
@@ -56,9 +77,7 @@
                                 <div id="diag_trust_cert_path_cont"></div>
                             </span>
                         </div>
-
                     </div>
-
                     <div class="col-sm-7">
                         <h4>OpenSSL supported ciphers</h4>
                         <pre><small><code id="diag_ciphers_code"></code></small></pre>
@@ -88,23 +107,230 @@
                     </div>
                 </div>
             </div>
-            <button onclick="fetchDiagData()" type="submit" class="btn btn-primary">Re-generate</button>
         </div>
 
-        <div class="tab-pane fade" id="x509" role="tabpanel" aria-labelledby="x509-tab">
-            <h1>x509 stuff</h1>
-            <button onclick="fetchData()">Generate</button>
-            <div id="message"></div>
+        <!-- TAB Key Gen-->
+        <div class="tab-pane fade" id="key-gen" role="tabpanel" aria-labelledby="key-gen">
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>Key generator</h2>
+                </div>
+                <div class="row py-2">
+                    <span class="border py-2">
+                        <span>Key cipher</span>
+                        <hr>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="keyType" id="keyTypeRSA" checked>
+                            <label class="form-check-label" for="keyTypeRSA">
+                                RSA
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="keyType" id="keyTypeEC">
+                            <label class="form-check-label" for="keyTypeEC">
+                                Elliptic curves
+                            </label>
+                        </div>
+                    </span>
+                </div>
+                <div class="row py-2">
+                    <div class="border py-2">
+                        <span>Key size</span>
+                        <hr>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rsaSize" id="rsaKeySize2048">
+                            <label class="form-check-label" for="rsaKeySize2048">
+                                2048
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rsaSize" id="rsaKeySize4096" checked>
+                            <label class="form-check-label" for="rsaKeySize4096">
+                                4096
+                            </label>
+                        </div>
+                    </div>
+                    <div class="d-none border py-2">
+                        <span>Curve name</span>
+                        <hr>
+                        <select class="form-select" id="inlineFormSelectPref">
+                            <option selected>Choose...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 border p-2">
+                        <span>Private key in PEM format</span>
+                        <hr>
+                        <pre><small><code id="gen_key_code"></code></small></pre>
+                        <div class="row p-4">
+                            <textarea class="form-control bg-secondary" rows="15" placeholder="Key in PEM format"
+                                id="keygen_result" readonly></textarea>
+                        </div>
+                        <div class="row p-4">
+                            <div class="d-grid gap-2 d-md-block">
+                                <button onclick="genKey()" type="submit" class="btn btn-primary">Generate</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="cert_validation_result"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 border p-2">
+                        <span>Public key in PEM format</span>
+                        <hr>
+                        <pre><small><code id="gen_pubkey_code">openssl</code></small></pre>
+                        <div class="row p-4">
+                            <textarea class="form-control bg-secondary" rows="15" placeholder="Key in PEM format"
+                                id="pubkeygen_result" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- TAB x509 Validate-->
+        <div class="tab-pane fade" id="x509-Validate" role="tabpanel" aria-labelledby="x509-tab">
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>x509 Validate</h2>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="row py-2">
+                            <textarea class="span6" rows="3" placeholder="Copy paste certificate here"
+                                required></textarea>
+                        </div>
+                        <div class="row py-2">
+                            <div class="d-grid gap-2 d-md-block">
+                                <button onclick="validatex509Cert()" type="submit"
+                                    class="btn btn-primary">Validate</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="cert_validation_result"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- TAB x509 Self-signed-->
+        <div class="tab-pane fade" id="x509-self-signed" role="tabpanel" aria-labelledby="x509-tab">
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>Generate x509 self-signed certificate</h2>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="row py-2">
+                            <textarea class="span6" rows="3" placeholder="Copy paste certificate here"
+                                required></textarea>
+                        </div>
+                        <div class="row py-2">
+                            <div class="d-grid gap-2 d-md-block">
+                                <button onclick="validatex509Cert()" type="submit"
+                                    class="btn btn-primary">Validate</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="cert_validation_result"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CA Signed-->
+        <div class="tab-pane fade" id="x509-CA-signed" role="tabpanel" aria-labelledby="x509-tab">
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>Generate x509 CA-signed certificate</h2>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="row py-2">
+                            <textarea class="span6" rows="3" placeholder="Copy paste certificate here"
+                                required></textarea>
+                        </div>
+                        <div class="row py-2">
+                            <div class="d-grid gap-2 d-md-block">
+                                <button onclick="validatex509Cert()" type="submit"
+                                    class="btn btn-primary">Validate</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="cert_validation_result"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB x509 CRL -->
+        <div class="tab-pane fade" id="x509-CRL" role="tabpanel" aria-labelledby="x509-tab">
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>Generate x509 CRL</h2>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="row py-2">
+                            <textarea class="span6" rows="3" placeholder="Copy paste certificate here"
+                                required></textarea>
+                        </div>
+                        <div class="row py-2">
+                            <div class="d-grid gap-2 d-md-block">
+                                <button onclick="validatex509Cert()" type="submit"
+                                    class="btn btn-primary">Validate</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="cert_validation_result"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB TLS -->
         <div class="tab-pane fade" id="tls" role="tabpanel" aria-labelledby="tls-tab">
-            <h1>TLS Stuff</h1>
-            <button onclick="fetchData()">Generate</button>
-            <div id="other"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>TLS Stuff</h2>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="row py-2">
+                            <textarea class="span6" rows="3" placeholder="Copy paste certificate here"
+                                required></textarea>
+                        </div>
+                        <div class="row py-2">
+                            <div class="d-grid gap-2 d-md-block">
+                                <button onclick="validatex509Cert()" type="submit"
+                                    class="btn btn-primary">Validate</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="cert_validation_result"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- <script src="web/jquery-3.7.1.min.js"></script> -->
-    <!-- <script src="web/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 </body>
 
 </html>
