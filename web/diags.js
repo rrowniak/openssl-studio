@@ -3,6 +3,17 @@ const CMD_SUPP_CIPHERS = 'openssl ciphers -s -v'
 const CMD_TRUST_CERT_PATH = 'openssl version -d'
 
 // eslint-disable-next-line no-unused-vars
+function diagOnLoad () {
+  // eslint-disable-next-line no-undef
+  document.getElementById('diag_version_code').innerText = CMD_VERSION
+  // eslint-disable-next-line no-undef
+  document.getElementById('diag_ciphers_code').innerText = CMD_SUPP_CIPHERS
+  // eslint-disable-next-line no-undef
+  document.getElementById('diag_trust_cert_path_code').innerText = CMD_TRUST_CERT_PATH
+  // eslint-disable-next-line no-undef
+  fetchDiagData()
+}
+// eslint-disable-next-line no-unused-vars
 function fetchDiagData () {
   // eslint-disable-next-line no-undef
   rpcCmd('diag_version', CMD_VERSION)

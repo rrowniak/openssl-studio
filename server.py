@@ -116,7 +116,19 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         processed_data = {}
         if self.path == '/rpc':
             print(f'Executing {data["cmd"]} command...')
+            tmp_dir = len(data["filesIn"]) > 0 or len(data['filesOut']) > 0
+            old_cwd = os.getcwd()
+            if tmp_dir:
+                folder_name = os.path.join('user_data', self.session_id)
+                os.makedirs(folder_name, exist_ok=True)
+                os.chdir(os.path.join(old_cwd, folder_name))
+                for k, v in data['filesIn'].items():
+                    with open(k, 'w') as file:
+                        file.write(v)
             ret_code, out, timeout = call_bash_cmd(data['cmd'])
+
+            if tmp_dir:
+                os.chdir(old_cwd)
 
             processed_data = {'ret_code': ret_code,
                               'out': out, 'timeout': timeout}

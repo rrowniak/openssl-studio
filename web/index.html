@@ -120,13 +120,15 @@
                         <span>Key cipher</span>
                         <hr>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="keyType" id="keyTypeRSA" checked>
+                            <input class="form-check-input" type="radio" name="keyType" id="keyTypeRSA"
+                                onchange="keyGenTypeOnChange()" checked>
                             <label class="form-check-label" for="keyTypeRSA">
                                 RSA
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="keyType" id="keyTypeEC">
+                            <input class="form-check-input" type="radio" name="keyType" id="keyTypeEC"
+                                onchange="keyGenTypeOnChange()">
                             <label class="form-check-label" for="keyTypeEC">
                                 Elliptic curves
                             </label>
@@ -134,23 +136,25 @@
                     </span>
                 </div>
                 <div class="row py-2">
-                    <div class="border py-2">
+                    <div class="border py-2" id="keyGenRSAOpts">
                         <span>Key size</span>
                         <hr>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="rsaSize" id="rsaKeySize2048">
+                            <input class="form-check-input" type="radio" name="rsaSize" id="rsaKeySize2048"
+                                onchange="rsaKeySizeOnChange()">
                             <label class="form-check-label" for="rsaKeySize2048">
                                 2048
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="rsaSize" id="rsaKeySize4096" checked>
+                            <input class="form-check-input" type="radio" name="rsaSize" id="rsaKeySize4096"
+                                onchange="rsaKeySizeOnChange()" checked>
                             <label class="form-check-label" for="rsaKeySize4096">
                                 4096
                             </label>
                         </div>
                     </div>
-                    <div class="d-none border py-2">
+                    <div class="border py-2" id="keyGenECOpts" style="display: none">
                         <span>Curve name</span>
                         <hr>
                         <select class="form-select" id="inlineFormSelectPref">
