@@ -2,13 +2,52 @@ const CMD_RSA_KEYGEN = "openssl genrsa";
 const CMD_RSA_PUBKEYGEN =
   "openssl rsa -in key.pem -outform PEM -pubout 2>/dev/null";
 
-const CMD_EC_KEYGEN = "openssl ecparam -name prime256v1 -genkey -noout";
+const CMD_EC_KEYGEN1 = "openssl ecparam -name ";
+const CMD_EC_KEYGEN2 = " -genkey -noout";
 const CMD_EC_PUBKEYGEN = "openssl ec -in key.pem -pubout 2>/dev/null";
+
+const ECC_CURVE_LIST_CMD = "openssl ecparam -list_curves";
 
 // eslint-disable-next-line no-unused-vars
 function keyGenOnLoad() {
   updateGenKeyCmdFields();
+  populateECCList();
   hideBtnSpinner("btn-genkey");
+}
+
+function populateECCList() {
+  rpcCmdFn(function (out) {
+    var curveSelect = document.getElementById("eccList");
+    // Extract the first element from each record
+    var records = out.split("\n");
+    var curveNames = records
+      .map((record) => {
+        var match = record.match(/^\s*(.+?)\s*:\s*(.*)$/);
+        return match ? match[1].trim() : null;
+      })
+      .filter((name) => name !== null); // Remove null values
+    // Populate the select list
+    curveNames.forEach((curveName) => {
+      var option = document.createElement("option");
+      option.text = curveName;
+      option.value = curveName;
+      curveSelect.add(option);
+    });
+    // Select "prime256v1" if it exists, otherwise the first element
+    var defaultCurve = curveNames.includes("prime256v1")
+      ? "prime256v1"
+      : curveNames[0];
+    curveSelect.value = defaultCurve;
+  }, ECC_CURVE_LIST_CMD);
+}
+
+function getSelectedECC() {
+  var curveSelect = document.getElementById("eccList");
+  return curveSelect.value;
+}
+
+function eccSelectionOnChange() {
+  updateGenKeyCmdFields();
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -45,7 +84,8 @@ function buildPubKeyGenCmd() {
 }
 
 function buildECCommand() {
-  return CMD_EC_KEYGEN;
+  var selected = getSelectedECC();
+  return CMD_EC_KEYGEN1 + selected + CMD_EC_KEYGEN2;
 }
 
 function buildRsaCommand() {
