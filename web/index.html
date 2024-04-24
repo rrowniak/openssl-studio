@@ -7,6 +7,7 @@
     <title>OpenSSL Studio</title>
     <link href="web/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script src="web/bootstrap.min.js"></script>
+    <script src="web/FileSaver.js"></script>
     <script src="web/common.js"></script>
     <script src="web/diags.js"></script>
     <script src="web/keygen.js"></script>
@@ -14,6 +15,7 @@
 </head>
 
 <body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <!-- The content-->
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#diag"
@@ -52,7 +54,11 @@
             <div class="container-fluid">
                 <div class="row">
                     <h2>OpenSSL diagnostics</h2>
-                    <button onclick="fetchDiagData()" type="submit" class="btn btn-primary">Re-generate</button>
+                    <button onclick="fetchDiagData()" type="submit" class="btn btn-primary">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            id="btn-diag-reload"></span>
+                        <span class="sr-only">Re-generate</span>
+                    </button>
                 </div>
                 <div class="row gx-4">
                     <div class="col-sm-5">
@@ -175,8 +181,16 @@
                                 id="keygen_result" readonly></textarea>
                         </div>
                         <div class="row p-4">
-                            <div class="d-grid gap-2 d-md-block">
-                                <button onclick="genKey()" type="submit" class="btn btn-primary">Generate</button>
+                            <div class="col-sm-4 d-grid gap-2 d-md-block">
+                                <button onclick="genKey()" type="submit" class="btn btn-primary"><span
+                                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                        id="btn-genkey"></span>
+                                    <span class="sr-only">Generate</span>
+                                </button>
+                            </div>
+                            <div class="col-sm-4 d-grid gap-2 d-md-block">
+                                <button onclick="downloadPrivateKey()" type="submit"
+                                    class="btn btn-primary">Download</button>
                             </div>
                         </div>
                         <div class="row">
@@ -191,6 +205,13 @@
                             <textarea class="form-control bg-secondary" rows="15" placeholder="Key in PEM format"
                                 id="pubkeygen_result" readonly></textarea>
                         </div>
+                        <div class="row p-4">
+                            <div class="col-sm-4 d-grid gap-2 d-md-block">
+                                <button onclick="downloadPublicKey()" type="submit"
+                                    class="btn btn-primary">Download</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
