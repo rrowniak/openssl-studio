@@ -1,0 +1,26 @@
+<!-- TAB x509 Validate-->
+<div class="tab-pane fade" id="x509-Validate" role="tabpanel" aria-labelledby="x509-tab">
+    <div class="container-fluid">
+        <div class="row">
+            <h2>x509 Validate</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="row py-2">
+                    <textarea class="span6" rows="3" placeholder="Copy paste certificate here" required></textarea>
+                </div>
+                <div class="row py-2">
+                    <div class="d-grid gap-2 d-md-block">
+                        <button onclick="validatex509Cert()" type="submit" class="btn btn-primary">
+                            Validate
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="cert_validation_result"></div>
+                </div>
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+    </div>
+</div>

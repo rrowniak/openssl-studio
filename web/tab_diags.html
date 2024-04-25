@@ -1,0 +1,65 @@
+<!-- TAB Diagnostics-->
+<div class="tab-pane fade show active" id="diag" role="tabpanel" aria-labelledby="diag-tab">
+    <div class="container-fluid">
+        <div class="row">
+            <h2>OpenSSL diagnostics</h2>
+            <button onclick="fetchDiagData()" type="submit" class="btn btn-primary">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                    id="btn-diag-reload"></span>
+                <span class="sr-only">Re-generate</span>
+            </button>
+        </div>
+        <div class="row gx-4">
+            <div class="col-sm-5">
+                <div class="row py-2">
+                    <span class="border py-2">
+                        <h4>OpenSSL version</h4>
+                        <pre><small><code id="diag_version_code"></code></small></pre>
+                        <div id="diag_version"></div>
+                    </span>
+                </div>
+                <div class="row py-2">
+                    <span class="border py-2">
+                        <h4>Trusted certificates path</h4>
+                        <pre><small><code id="diag_trust_cert_path_code"></code></small></pre>
+                        <div id="diag_trust_cert_path"></div>
+                    </span>
+                </div>
+                <div class="row py-2">
+                    <span class="border py-2">
+                        <h4>Trusted certificates path content</h4>
+                        <pre><small><code>ls -l</code></small></pre>
+                        <div id="diag_trust_cert_path_cont"></div>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <h4>OpenSSL supported ciphers</h4>
+                <pre><small><code id="diag_ciphers_code"></code></small></pre>
+                <div id="diag_ciphers"></div>
+                <table class="table" id="diag_ciphers_table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cipher</th>
+                            <th scope="col">TLS version</th>
+                            <th scope="col">Kx</th>
+                            <th scope="col">Au</th>
+                            <th scope="col">Enc</th>
+                            <th scope="col">Mac</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--<tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                            </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
