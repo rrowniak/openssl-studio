@@ -76,3 +76,10 @@ function showBtnSpinner(btnId) {
 function hideBtnSpinner(btnId) {
   document.getElementById(btnId).style.display = "none";
 }
+
+function parse_str(str) {
+  var args = [].slice.call(arguments, 1), 
+  i = 0;
+
+  return str.replace(/%s/g, () => args[i++]);
+}
