@@ -17,8 +17,12 @@ function my_onload() {
     // eslint-disable-next-line no-undef
     keyGenOnLoad();
   });
-  load_tab("#myTabContent", "tab_x509val.html");
-  load_tab("#myTabContent", "tab_selfsign.html");
+  load_tab("#myTabContent", "tab_x509val.html", function (response, status) {
+    valOnLoad();
+  });
+  load_tab("#myTabContent", "tab_x509gen.html", function (response, status) {
+    x509CertOnLoad();
+  });
   load_tab("#myTabContent", "tab_casign.html");
   load_tab("#myTabContent", "tab_crl.html");
   load_tab("#myTabContent", "tab_tls.html");

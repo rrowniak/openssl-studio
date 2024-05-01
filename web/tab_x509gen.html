@@ -1,0 +1,394 @@
+<!-- TAB x509 Self-signed-->
+<div class="tab-pane fade" id="x509-gen" role="tabpanel" aria-labelledby="x509-tab">
+    <div class="container-fluid">
+        <div class="row">
+            <h2>Generate x509 certificate</h2>
+        </div>
+        <div class="row border py-2">
+            <span class="py-2">
+                <span>Certificate templates</span>
+                <hr />
+            </span>
+            <div class="col-sm-2">
+                <button onclick="fillCACert" type="submit" class="btn btn-primary">
+                    CA Cert
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <button onclick="fillTlsServCert" type="submit" class="btn btn-primary">
+                    Tls Server
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <button onclick="fillTlsClientCert" type="submit" class="btn btn-primary">
+                    Tls Client
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <button onclick="fillCAint" type="submit" class="btn btn-primary">
+                    CA intermediate
+                </button>
+            </div>
+        </div>
+        <div class="row border py-2">
+            <span class="py-2">
+                <span>Subject value</span>
+                <hr />
+            </span>
+
+            <div class="row py-2">
+                <label for="CNCert" class="col-sm-3 col-form-label">Common Name</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="CNCert" placeholder="e.g. server FQDN or YOUR name" />
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="CountryNCert" class="col-sm-3 col-form-label">Country Name (2 letter code)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="CountryNCert" value="PL" />
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="StateCert" class="col-sm-3 col-form-label">State or Province Name (full name)
+                    [malopolskie]</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="StateCert" value="malopolskie" />
+                </div>
+            </div>
+
+            <div class="row py-2">
+                <label for="LocCert" class="col-sm-3 col-form-label">Locality Name (eg, city)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="LocCert" value="Krakow" />
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="OrgCert" class="col-sm-3 col-form-label">Organization Name (eg, company)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="OrtCert" value="Internet inc" />
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="UnitCert" class="col-sm-3 col-form-label">Organizational Unit Name (eg, section)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="UnitCert" value="development" />
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="EmailCert" class="col-sm-3 col-form-label">Email Address</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="EmailCert" value="user@example.com" />
+                </div>
+            </div>
+        </div>
+        <div class="row border py-2">
+            <span class="py-2">
+                <span>Certificate parameters</span>
+                <hr />
+            </span>
+            <span class="border py-2">
+                <span>Expiry time</span>
+                <hr />
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="x509Expiry" id="x509ExpiryDays"
+                        onchange="certExpiryOnChange()" checked />
+                    <label class="form-check-label" for="x509ExpiryDays">Days</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="x509Expiry" id="x509ExpiryFromTo"
+                        onchange="certExpiryOnChange()" />
+                    <label class="form-check-label" for="x509ExpiryFromTo">
+                        From-To
+                    </label>
+                </div>
+            </span>
+
+            <div class="row py-2">
+                <label for="DaysCert" class="col-sm-2 col-form-label">Days</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="DaysCert" value="360" />
+                </div>
+            </div>
+            <fieldset disabled>
+                <div class="row py-2">
+                    <label for="FromCert" class="col-sm-2 col-form-label">From</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="FromCert" value="240815080000Z" />
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <label for="ToCert" class="col-sm-2 col-form-label">To</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="ToCert" value="250815080000Z" />
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="row py-2">
+                <label for="DigestCert" class="col-sm-2 col-form-label">Digest</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="digestList" onchange="digestSelectionOnChange()">
+                        <option selected>Choose (default is -sha256)...</option>
+                        <!-- <option value="-sha1">-sha1</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="IP1Cert" class="col-sm-2 col-form-label">IP 1</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="IP1Cert" value="192.168.1.10" />
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="IP2Cert" class="col-sm-2 col-form-label">IP 2</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="IP2Cert" value="" />
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="DNS1Cert" class="col-sm-2 col-form-label">DNS 1</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="DNS1Cert" value="tls-serv.example.com" />
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="DNS2Cert" class="col-sm-2 col-form-label">DNS2</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="DNS2Cert" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="row border py-2">
+            <span class="py-2">
+                <span>Certificate extensions</span>
+                <hr />
+            </span>
+            <div class="row py-2">
+                <label for="extbasicConstraints" class="col-sm-2 col-form-label">basicConstraints</label>
+                <div class="col-sm-3">
+                    <select class="form-select" id="extbasicConstraints">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-select" id="ext1basicConstraints">
+                        <option>CA:FALSE</option>
+                        <option>CA:TRUE</option>
+                    </select>
+                </div>
+                <!-- <div class="col-sm-4"> -->
+                <label for="extPathlen" class="col-sm-2 col-form-label d-flex justify-content-center">pathlen</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="extPathlen" value="1" />
+                </div>
+            </div>
+        </div>
+        <div class="row border py-2">
+            <span class="py-2">
+                <span>Key usage extensions</span>
+                <hr />
+            </span>
+
+            <div class="row py-2">
+                <label for="extdigitalSignature" class="col-sm-2 col-form-label">digitalSignature</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extdigitalSignature">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extnonRepudiation" class="col-sm-2 col-form-label">nonRepudiation</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extnonRepudiation">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extkeyEncipherment" class="col-sm-2 col-form-label">keyEncipherment</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extkeyEncipherment">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extdataEncipherment" class="col-sm-2 col-form-label">dataEncipherment</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extdataEncipherment">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extkeyAgreement" class="col-sm-2 col-form-label">keyAgreement</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extkeyAgreement">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extkeyCertSign" class="col-sm-2 col-form-label">keyCertSign</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extkeyCertSign">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extcRLSign" class="col-sm-2 col-form-label">cRLSign</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extcRLSign">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extencipherOnly" class="col-sm-2 col-form-label">encipherOnly</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extencipherOnly">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row border py-2">
+            <span class="py-2">
+                <span>Extended key usage extensions</span>
+                <hr />
+            </span>
+
+            <div class="row py-2">
+                <label for="extserverAuth" class="col-sm-2 col-form-label">serverAuth</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extserverAuth">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extclientAuth" class="col-sm-2 col-form-label">clientAuth</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extclientAuth">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extcodeSigning" class="col-sm-2 col-form-label">codeSigning</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extcodeSigning">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extemailProtection" class="col-sm-2 col-form-label">emailProtection</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extemailProtection">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="exttimeStamping" class="col-sm-2 col-form-label">timeStamping</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="exttimeStamping">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extOCSPSigning" class="col-sm-2 col-form-label">OCSPSigning</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extOCSPSigning">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extipsecIKE" class="col-sm-2 col-form-label">ipsecIKE</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extipsecIKE">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extmsCodeInd" class="col-sm-2 col-form-label">msCodeInd</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extmsCodeInd">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extmsCodeCom" class="col-sm-2 col-form-label">msCodeCom</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extmsCodeCom">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extmsCTLSign" class="col-sm-2 col-form-label">msCTLSign</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extmsCTLSign">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label for="extmsEFS" class="col-sm-2 col-form-label">msEFS</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="extmsEFS">
+                        <option selected>Not selected</option>
+                        <option>Selected</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
