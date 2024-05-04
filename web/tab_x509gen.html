@@ -389,6 +389,63 @@
                 </div>
             </div>
         </div>
+        <div class="row border py-2">
+            <span class="py-2">
+                <span>Private key and CA certificates</span>
+                <hr />
+            </span>
+            <div class="row p-2">
+                <div class="col-sm-2">
+                    <input class="form-check-input" type="radio" name="certSignType" id="certSignTypeSelf"
+                        onchange="SelfSignOnChange()" checked />
+                    <label class="form-check-label" for="certSignTypeSelf"> Self-signed </label>
+                </div>
+                <div class="col-sm-2">
+                    <input class="form-check-input" type="radio" name="certSignType" id="certSignTypeCA"
+                        onchange="CASignOnChange()" />
+                    <label class="form-check-label" for="certSignTypeCA">
+                        CA signed
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-sm-6 border p-2">
+                <span>Private key in PEM format</span>
+                <div class="row p-4">
+                    <textarea class="form-control bg-secondary" rows="15" placeholder="Key in PEM format"
+                        id="x506_gen_priv_key"></textarea>
+                </div>
+                <pre><small><code id="gen_x509_code">openssl x509 gen</code></small></pre>
+                <div class="row p-4">
+                    <div class="col-sm-4 d-grid gap-2 d-md-block">
+                        <button onclick="x509genCert()" type="submit" class="btn btn-primary">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                id="btn-genkey"></span>
+                            <span class="sr-only">Generate certificate</span>
+                        </button>
+                    </div>
+                    <div class="col-sm-4 d-grid gap-2 d-md-block">
+                        <button onclick="downloadx509Cert()" type="submit" class="btn btn-primary">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 border p-2">
+                <span>CA certificate</span>
+                <div class="row p-4">
+                    <textarea class="form-control bg-secondary" rows="15" placeholder="CA private key in PEM format"
+                        id="gen_x509_ca_priv_key"></textarea>
+                </div>
+                <div class="row p-4">
+                    <div class="row p-4">
+                    <textarea class="form-control bg-secondary" rows="15" placeholder="CA certificate in PEM format"
+                        id="gen_x509_ca_cert"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
     </div>
-</div>
 </div>
