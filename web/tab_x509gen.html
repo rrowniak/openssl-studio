@@ -1,10 +1,5 @@
 <!-- TAB x509 Self-signed-->
-<div
-  class="tab-pane fade"
-  id="x509-gen"
-  role="tabpanel"
-  aria-labelledby="x509-tab"
->
+<div class="tab-pane fade" id="x509-gen" role="tabpanel" aria-labelledby="x509-tab">
   <div class="container-fluid">
     <div class="row">
       <h2>Generate x509 certificate</h2>
@@ -25,11 +20,7 @@
         </button>
       </div>
       <div class="col-sm-2">
-        <button
-          onclick="fillTlsClientCert"
-          type="submit"
-          class="btn btn-primary"
-        >
+        <button onclick="fillTlsClientCert" type="submit" class="btn btn-primary">
           Tls Client
         </button>
       </div>
@@ -48,86 +39,42 @@
       <div class="row py-2">
         <label for="CNCert" class="col-sm-3 col-form-label">Common Name</label>
         <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control"
-            id="CNCert"
-            placeholder="e.g. server FQDN or YOUR name"
-          />
+          <input type="text" class="form-control" id="CNCert" placeholder="e.g. server FQDN or YOUR name"
+            onchange="updatex509GenCodeVal()" />
         </div>
       </div>
       <div class="row py-2">
-        <label for="CountryNCert" class="col-sm-3 col-form-label"
-          >Country Name (2 letter code)</label
-        >
+        <label for="CountryNCert" class="col-sm-3 col-form-label">Country Name (2 letter code)</label>
         <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control"
-            id="CountryNCert"
-            value="PL"
-          />
+          <input type="text" class="form-control" id="CountryNCert" value="PL" onchange="updatex509GenCodeVal()" />
         </div>
       </div>
       <div class="row py-2">
-        <label for="StateCert" class="col-sm-3 col-form-label"
-          >State or Province Name (full name) [malopolskie]</label
-        >
+        <label for="StateCert" class="col-sm-3 col-form-label">State or Province Name (full name) [malopolskie]</label>
         <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control"
-            id="StateCert"
-            value="malopolskie"
-          />
+          <input type="text" class="form-control" id="StateCert" value="malopolskie"
+            onchange="updatex509GenCodeVal()" />
         </div>
       </div>
 
       <div class="row py-2">
-        <label for="LocCert" class="col-sm-3 col-form-label"
-          >Locality Name (eg, city)</label
-        >
+        <label for="LocCert" class="col-sm-3 col-form-label" onchange="updatex509GenCodeVal()">Locality Name (eg,
+          city)</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" id="LocCert" value="Krakow" />
         </div>
       </div>
       <div class="row py-2">
-        <label for="OrgCert" class="col-sm-3 col-form-label"
-          >Organization Name (eg, company)</label
-        >
+        <label for="OrgCert" class="col-sm-3 col-form-label" onchange="updatex509GenCodeVal()">Organization Name (eg,
+          company)</label>
         <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control"
-            id="OrgCert"
-            value="Internet inc"
-          />
+          <input type="text" class="form-control" id="OrgCert" value="Internet inc" onchange="updatex509GenCodeVal()" />
         </div>
       </div>
       <div class="row py-2">
-        <label for="UnitCert" class="col-sm-3 col-form-label"
-          >Organizational Unit Name (eg, section)</label
-        >
+        <label for="UnitCert" class="col-sm-3 col-form-label">Organizational Unit Name (eg, section)</label>
         <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control"
-            id="UnitCert"
-            value="development"
-          />
-        </div>
-      </div>
-      <div class="row py-2">
-        <label for="EmailCert" class="col-sm-3 col-form-label"
-          >Email Address</label
-        >
-        <div class="col-sm-9">
-          <input
-            type="text"
-            class="form-control"
-            id="EmailCert"
-            value="user@example.com"
-          />
+          <input type="text" class="form-control" id="UnitCert" value="development" onchange="updatex509GenCodeVal()" />
         </div>
       </div>
     </div>
@@ -136,7 +83,7 @@
         <span>Certificate parameters</span>
         <hr />
       </span>
-      <span class="border py-2">
+      <!--<span class="border py-2">
         <span>Expiry time</span>
         <hr />
         <div class="form-check">
@@ -162,15 +109,15 @@
             From-To
           </label>
         </div>
-      </span>
+      </span>-->
 
       <div class="row py-2">
         <label for="DaysCert" class="col-sm-2 col-form-label">Days</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="DaysCert" value="360" />
+          <input type="text" class="form-control" id="DaysCert" value="360" onchange="updatex509GenCodeVal()" />
         </div>
       </div>
-      <fieldset disabled>
+      <!-- 
         <div class="row py-2">
           <label for="FromCert" class="col-sm-2 col-form-label">From</label>
           <div class="col-sm-10">
@@ -193,17 +140,12 @@
             />
           </div>
         </div>
-      </fieldset>
+      -->
 
       <div class="row py-2">
         <label for="DigestCert" class="col-sm-2 col-form-label">Digest</label>
         <div class="col-sm-10">
-          <select
-            class="form-select"
-            id="digestList"
-            onchange="digestSelectionOnChange()"
-          >
-            <option selected>Choose (default is -sha256)...</option>
+          <select class="form-select" id="digestList" onchange="updatex509GenCodeVal()">
             <!-- <option value="-sha1">-sha1</option> -->
           </select>
         </div>
@@ -211,35 +153,26 @@
       <div class="row py-2">
         <label for="IP1Cert" class="col-sm-2 col-form-label">IP 1</label>
         <div class="col-sm-10">
-          <input
-            type="text"
-            class="form-control"
-            id="IP1Cert"
-            value="192.168.1.10"
-          />
+          <input type="text" class="form-control" id="IP1Cert" value="192.168.1.10" onchange="updatex509GenCodeVal()" />
         </div>
       </div>
       <div class="row py-2">
         <label for="IP2Cert" class="col-sm-2 col-form-label">IP 2</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="IP2Cert" value="" />
+          <input type="text" class="form-control" id="IP2Cert" value="" onchange="updatex509GenCodeVal()" />
         </div>
       </div>
       <div class="row py-2">
         <label for="DNS1Cert" class="col-sm-2 col-form-label">DNS 1</label>
         <div class="col-sm-10">
-          <input
-            type="text"
-            class="form-control"
-            id="DNS1Cert"
-            value="tls-serv.example.com"
-          />
+          <input type="text" class="form-control" id="DNS1Cert" value="tls-serv.example.com"
+            onchange="updatex509GenCodeVal()" />
         </div>
       </div>
       <div class="row py-2">
         <label for="DNS2Cert" class="col-sm-2 col-form-label">DNS2</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="DNS2Cert" value="" />
+          <input type="text" class="form-control" id="DNS2Cert" value="" onchange="updatex509GenCodeVal()" />
         </div>
       </div>
     </div>
@@ -249,30 +182,24 @@
         <hr />
       </span>
       <div class="row py-2">
-        <label for="extbasicConstraints" class="col-sm-2 col-form-label"
-          >basicConstraints</label
-        >
+        <label for="extbasicConstraints" class="col-sm-2 col-form-label">basicConstraints</label>
         <div class="col-sm-3">
-          <select class="form-select" id="extbasicConstraints">
+          <select class="form-select" id="extbasicConstraints" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
           </select>
         </div>
         <div class="col-sm-3">
-          <select class="form-select" id="ext1basicConstraints">
+          <select class="form-select" id="ext1basicConstraints" onchange="updatex509GenCodeVal()">
             <option>CA:FALSE</option>
             <option>CA:TRUE</option>
           </select>
         </div>
         <!-- <div class="col-sm-4"> -->
-        <label
-          for="extPathlen"
-          class="col-sm-2 col-form-label d-flex justify-content-center"
-          >pathlen</label
-        >
+        <label for="extPathlen" class="col-sm-2 col-form-label d-flex justify-content-center">pathlen</label>
         <div class="col-sm-2">
-          <input type="text" class="form-control" id="extPathlen" value="1" />
+          <input type="text" class="form-control" id="extPathlen" value="1" onchange="updatex509GenCodeVal()" />
         </div>
       </div>
     </div>
@@ -283,11 +210,9 @@
       </span>
 
       <div class="row py-2">
-        <label for="extdigitalSignature" class="col-sm-2 col-form-label"
-          >digitalSignature</label
-        >
+        <label for="extdigitalSignature" class="col-sm-2 col-form-label">digitalSignature</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extdigitalSignature">
+          <select class="form-select" id="extdigitalSignature" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -295,11 +220,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extnonRepudiation" class="col-sm-2 col-form-label"
-          >nonRepudiation</label
-        >
+        <label for="extnonRepudiation" class="col-sm-2 col-form-label">nonRepudiation</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extnonRepudiation">
+          <select class="form-select" id="extnonRepudiation" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -307,11 +230,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extkeyEncipherment" class="col-sm-2 col-form-label"
-          >keyEncipherment</label
-        >
+        <label for="extkeyEncipherment" class="col-sm-2 col-form-label">keyEncipherment</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extkeyEncipherment">
+          <select class="form-select" id="extkeyEncipherment" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -319,11 +240,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extdataEncipherment" class="col-sm-2 col-form-label"
-          >dataEncipherment</label
-        >
+        <label for="extdataEncipherment" class="col-sm-2 col-form-label">dataEncipherment</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extdataEncipherment">
+          <select class="form-select" id="extdataEncipherment" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -331,11 +250,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extkeyAgreement" class="col-sm-2 col-form-label"
-          >keyAgreement</label
-        >
+        <label for="extkeyAgreement" class="col-sm-2 col-form-label">keyAgreement</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extkeyAgreement">
+          <select class="form-select" id="extkeyAgreement" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -343,11 +260,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extkeyCertSign" class="col-sm-2 col-form-label"
-          >keyCertSign</label
-        >
+        <label for="extkeyCertSign" class="col-sm-2 col-form-label">keyCertSign</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extkeyCertSign">
+          <select class="form-select" id="extkeyCertSign" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -357,7 +272,7 @@
       <div class="row py-2">
         <label for="extcRLSign" class="col-sm-2 col-form-label">cRLSign</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extcRLSign">
+          <select class="form-select" id="extcRLSign" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -365,11 +280,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extencipherOnly" class="col-sm-2 col-form-label"
-          >encipherOnly</label
-        >
+        <label for="extencipherOnly" class="col-sm-2 col-form-label">encipherOnly</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extencipherOnly">
+          <select class="form-select" id="extencipherOnly" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -384,11 +297,9 @@
       </span>
 
       <div class="row py-2">
-        <label for="extserverAuth" class="col-sm-2 col-form-label"
-          >serverAuth</label
-        >
+        <label for="extserverAuth" class="col-sm-2 col-form-label">serverAuth</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extserverAuth">
+          <select class="form-select" id="extserverAuth" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -396,11 +307,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extclientAuth" class="col-sm-2 col-form-label"
-          >clientAuth</label
-        >
+        <label for="extclientAuth" class="col-sm-2 col-form-label">clientAuth</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extclientAuth">
+          <select class="form-select" id="extclientAuth" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -408,11 +317,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extcodeSigning" class="col-sm-2 col-form-label"
-          >codeSigning</label
-        >
+        <label for="extcodeSigning" class="col-sm-2 col-form-label">codeSigning</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extcodeSigning">
+          <select class="form-select" id="extcodeSigning" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -420,11 +327,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extemailProtection" class="col-sm-2 col-form-label"
-          >emailProtection</label
-        >
+        <label for="extemailProtection" class="col-sm-2 col-form-label">emailProtection</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extemailProtection">
+          <select class="form-select" id="extemailProtection" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -432,11 +337,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="exttimeStamping" class="col-sm-2 col-form-label"
-          >timeStamping</label
-        >
+        <label for="exttimeStamping" class="col-sm-2 col-form-label">timeStamping</label>
         <div class="col-sm-10">
-          <select class="form-select" id="exttimeStamping">
+          <select class="form-select" id="exttimeStamping" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -444,11 +347,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extOCSPSigning" class="col-sm-2 col-form-label"
-          >OCSPSigning</label
-        >
+        <label for="extOCSPSigning" class="col-sm-2 col-form-label">OCSPSigning</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extOCSPSigning">
+          <select class="form-select" id="extOCSPSigning" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -456,11 +357,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extipsecIKE" class="col-sm-2 col-form-label"
-          >ipsecIKE</label
-        >
+        <label for="extipsecIKE" class="col-sm-2 col-form-label">ipsecIKE</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extipsecIKE">
+          <select class="form-select" id="extipsecIKE" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -468,11 +367,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extmsCodeInd" class="col-sm-2 col-form-label"
-          >msCodeInd</label
-        >
+        <label for="extmsCodeInd" class="col-sm-2 col-form-label">msCodeInd</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extmsCodeInd">
+          <select class="form-select" id="extmsCodeInd" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -480,11 +377,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extmsCodeCom" class="col-sm-2 col-form-label"
-          >msCodeCom</label
-        >
+        <label for="extmsCodeCom" class="col-sm-2 col-form-label">msCodeCom</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extmsCodeCom">
+          <select class="form-select" id="extmsCodeCom" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -492,11 +387,9 @@
         </div>
       </div>
       <div class="row py-2">
-        <label for="extmsCTLSign" class="col-sm-2 col-form-label"
-          >msCTLSign</label
-        >
+        <label for="extmsCTLSign" class="col-sm-2 col-form-label">msCTLSign</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extmsCTLSign">
+          <select class="form-select" id="extmsCTLSign" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -506,7 +399,7 @@
       <div class="row py-2">
         <label for="extmsEFS" class="col-sm-2 col-form-label">msEFS</label>
         <div class="col-sm-10">
-          <select class="form-select" id="extmsEFS">
+          <select class="form-select" id="extmsEFS" onchange="updatex509GenCodeVal()">
             <option selected>Not selected</option>
             <option>Selected</option>
             <option>Critical</option>
@@ -521,26 +414,15 @@
       </span>
       <div class="row p-2">
         <div class="col-sm-2">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="certSignType"
-            id="certSignTypeSelf"
-            onchange="SelfSignOnChange()"
-            checked
-          />
+          <input class="form-check-input" type="radio" name="certSignType" id="certSignTypeSelf"
+            onchange="SelfSignOnChange()" checked />
           <label class="form-check-label" for="certSignTypeSelf">
             Self-signed
           </label>
         </div>
         <div class="col-sm-2">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="certSignType"
-            id="certSignTypeCA"
-            onchange="CASignOnChange()"
-          />
+          <input class="form-check-input" type="radio" name="certSignType" id="certSignTypeCA"
+            onchange="CASignOnChange()" />
           <label class="form-check-label" for="certSignTypeCA">
             CA signed
           </label>
@@ -550,45 +432,23 @@
         <div class="col-sm-6 border p-2">
           <span>Private key in PEM format</span>
           <div class="row p-4">
-            <textarea
-              class="form-control bg-secondary"
-              rows="15"
-              placeholder="Key in PEM format"
-              id="x509_gen_priv_key"
-            ></textarea>
+            <textarea class="form-control bg-secondary" rows="15" placeholder="Key in PEM format"
+              id="x509_gen_priv_key"></textarea>
           </div>
           <div class="row p-4">
-            <textarea
-              class="form-control bg-secondary"
-              rows="15"
-              placeholder="Generated certificate"
-              id="gen_x509_cert"
-              readonly
-            ></textarea>
+            <textarea class="form-control bg-secondary" rows="15" placeholder="Generated certificate" id="gen_x509_cert"
+              readonly></textarea>
           </div>
           <pre><small><code class="text-wrap" id="gen_x509_code">openssl x509 gen</code></small></pre>
           <div class="row p-4">
             <div class="col-sm-4 d-grid gap-2 d-md-block">
-              <button
-                onclick="x509genCert()"
-                type="submit"
-                class="btn btn-primary"
-              >
-                <span
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
-                  id="btn-genx509"
-                ></span>
+              <button onclick="x509genCert()" type="submit" class="btn btn-primary">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="btn-genx509"></span>
                 <span class="sr-only">Generate certificate</span>
               </button>
             </div>
             <div class="col-sm-4 d-grid gap-2 d-md-block">
-              <button
-                onclick="downloadx509Cert()"
-                type="submit"
-                class="btn btn-primary"
-              >
+              <button onclick="downloadx509Cert()" type="submit" class="btn btn-primary">
                 Download
               </button>
             </div>
@@ -597,20 +457,12 @@
         <div class="col-sm-6 border p-2">
           <span>CA certificate</span>
           <div class="row p-4">
-            <textarea
-              class="form-control bg-secondary"
-              rows="15"
-              placeholder="CA private key in PEM format"
-              id="gen_x509_ca_priv_key"
-            ></textarea>
+            <textarea class="form-control bg-secondary" rows="15" placeholder="CA private key in PEM format"
+              id="gen_x509_ca_priv_key"></textarea>
           </div>
           <div class="row p-4">
-            <textarea
-              class="form-control bg-secondary"
-              rows="15"
-              placeholder="CA certificate in PEM format"
-              id="gen_x509_ca_cert"
-            ></textarea>
+            <textarea class="form-control bg-secondary" rows="15" placeholder="CA certificate in PEM format"
+              id="gen_x509_ca_cert"></textarea>
           </div>
         </div>
       </div>
