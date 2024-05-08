@@ -76,6 +76,8 @@ function genx509Cmd() {
   args.push(genx509ExpireTimeArg());
   args.push("-nodes");
   args.push('-subj "' + genx509SubjectValueStr() + '"');
+  args.push(genx509BasicConst());
+  args.push(genx509Extensions());
   // args.push('-addext "subjectAltName=IP:192.168.1.1"');
   args.push(genx509SubAltName());
   return args.join(" ");
@@ -91,13 +93,59 @@ function genx509ExpireTimeArg() {
   // }
 }
 
+function genx509BasicConst() {
+  const args = [];
+  var selected = $("#extbasicConstraints option:selected").text();
+  if (selected === "Critical") {
+    args.push("critical")
+  }
+  if (selected !== "Not selected") {
+    var ca_opt = $("#ext1basicConstraints option:selected").text();
+    args.push(ca_opt);
+
+    var pathlen = $("#extPathlen").val();
+    if (pathlen !== "") {
+      args.push("pathlen:" + pathlen);
+    }
+  }
+  if (args.length > 0) {
+    return "-addext basicConstraints=" + args.join(",");
+  }
+  return ""
+}
+function genx509Extensions() {
+  const list = ["extdigitalSignature", "extnonRepudiation", "extkeyEncipherment", "extdataEncipherment", "extkeyAgreement", "extkeyCertSign", "extcRLSign", "extencipherOnly"];
+  const prefix = "keyUsage"
+  var ku = genx509ExtCustom(list, prefix);
+  const list_ext = ["extserverAuth","extclientAuth", "extcodeSigning","extemailProtection", "exttimeStamping", "extOCSPSigning","extipsecIKE","extmsCodeInd","extmsCodeCom", "extmsCTLSign","extmsEFS"];
+  const prefix_ext = "extendedKeyUsage"
+  var ext = genx509ExtCustom(list_ext, prefix_ext);
+  return ku + " " + ext;
+}
+
+function genx509ExtCustom(list, prefix) {
+  const args = [];
+  for (const l of list) {
+    var selected = $("#" + l + " option:selected").text();
+    if (selected === "Critical") {
+      args.push("critical")
+    }
+    if (selected !== "Not selected") {
+      var propName = $('label[for="' + l +'"]').text()
+      args.push(propName)
+    }
+  }
+  if (args.length > 0) {
+    return "-addext   " + prefix + "=" + args.join(",");
+  }
+  return ""
+}
+
 function genx509SubAltName() {
-  // -addext "subjectAltName = DNS:foo.co.uk"
   const args = [];
   // IPS
   var ips = ["IP1Cert", "IP2Cert"];
-  for (i = 0; i < ips.length; i++) {
-    var id = ips[i];
+  for (const id of ips) {
     var val = $("#" + id).val();
     if (val.trim() !== "") {
       args.push("IP:" + val);
@@ -105,8 +153,7 @@ function genx509SubAltName() {
   }
 
   var dns = ["DNS1Cert", "DNS2Cert"];
-  for (i = 0; i < dns.length; i++) {
-    var id = dns[i];
+  for (const id of dns) {
     var val = $("#" + id).val();
     if (val.trim() !== "") {
       args.push("DNS:" + val);
