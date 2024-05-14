@@ -29,7 +29,13 @@
           CA intermediate
         </button>
       </div>
+      <div class="col-sm-2">
+        <button onclick="fillSmartcard" type="submit" class="btn btn-primary">
+          Smart card
+        </button>
+      </div>
     </div>
+    <div class="row py-2"></div>
     <div class="row border py-2">
       <span class="py-2">
         <span>Subject value</span>
@@ -39,7 +45,7 @@
       <div class="row py-2">
         <label for="CNCert" class="col-sm-3 col-form-label">Common Name</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" id="CNCert" placeholder="e.g. server FQDN or YOUR name"
+          <input type="text" class="form-control" id="CNCert" value="e.g. server FQDN or YOUR name"
             onchange="updatex509GenCodeVal()" />
         </div>
       </div>
@@ -78,6 +84,7 @@
         </div>
       </div>
     </div>
+    <div class="row py-2"></div>
     <div class="row border py-2">
       <span class="py-2">
         <span>Certificate parameters</span>
@@ -176,6 +183,7 @@
         </div>
       </div>
     </div>
+    <div class="row py-2"></div>
     <div class="row border py-2">
       <span class="py-2">
         <span>Certificate extensions</span>
@@ -203,6 +211,7 @@
         </div>
       </div>
     </div>
+    <div class="row py-2"></div>
     <div class="row border py-2">
       <span class="py-2">
         <span>Key usage extensions</span>
@@ -290,6 +299,7 @@
         </div>
       </div>
     </div>
+    <div class="row py-2"></div>
     <div class="row border py-2">
       <span class="py-2">
         <span>Extended key usage extensions</span>
@@ -406,7 +416,34 @@
           </select>
         </div>
       </div>
+      <div class="row py-2">
+        <span class="py-2">
+          <span>Key usage extensions - Smart Cards</span>
+          <hr />
+        </span>
+        <label for="extmsSmartcardLogin" class="col-sm-2 col-form-label">msSmartcardLogin</label>
+        <div class="col-sm-2">
+          <select class="form-select" id="extmsSmartcardLogin" onchange="updatex509GenCodeVal()">
+            <option selected>Not selected</option>
+            <option>Selected</option>
+            <option>Critical</option>
+          </select>
+        </div>
+        <label for="extPrincipalName" class="col-sm-2 col-form-label d-flex justify-content-center">Principal
+          Name</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="extPrincipalName" value="user@mydomai.local"
+            onchange="updatex509GenCodeVal()" />
+        </div>
+        <label for="extPrincipalMail" class="col-sm-2 col-form-label d-flex justify-content-center">Principal
+          Mail</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="extPrincipalMail" value="user@mycompany.com"
+            onchange="updatex509GenCodeVal()" />
+        </div>
+      </div>
     </div>
+    <div class="row py-2"></div>
     <div class="row border py-2">
       <span class="py-2">
         <span>Private key and CA certificates</span>
@@ -432,8 +469,7 @@
         <div class="col-sm-6 border p-2">
           <span>Private key in PEM format</span>
           <div class="row p-4">
-            <textarea class="span6" rows="15" placeholder="Key in PEM format"
-              id="x509_gen_priv_key"></textarea>
+            <textarea class="span6" rows="15" placeholder="Key in PEM format" id="x509_gen_priv_key"></textarea>
           </div>
           <div class="row p-4">
             <textarea class="form-control bg-secondary" rows="15" placeholder="Generated certificate" id="gen_x509_cert"

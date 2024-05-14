@@ -80,6 +80,7 @@ function genx509Cmd() {
   args.push(genx509Extensions());
   // args.push('-addext "subjectAltName=IP:192.168.1.1"');
   args.push(genx509SubAltName());
+  args.push(genx509Smartcard());
   return args.join(" ");
 }
 
@@ -97,7 +98,7 @@ function genx509BasicConst() {
   const args = [];
   var selected = $("#extbasicConstraints option:selected").text();
   if (selected === "Critical") {
-    args.push("critical")
+    args.push("critical");
   }
   if (selected !== "Not selected") {
     var ca_opt = $("#ext1basicConstraints option:selected").text();
@@ -111,14 +112,66 @@ function genx509BasicConst() {
   if (args.length > 0) {
     return "-addext basicConstraints=" + args.join(",");
   }
-  return ""
+  return "";
 }
+
+function genx509Smartcard() {
+  const args = [];
+  const args_altname = [];
+  var selected = $("#extmsSmartcardLogin option:selected").text();
+  if (selected === "Critical") {
+    args.push("critical");
+  }
+  if (selected !== "Not selected") {
+    args.push("msSmartcardLogin");
+    var principal_name = $("#extPrincipalName").val().trim();
+    if (principal_name !== "") {
+      args_altname.push("UTF8:" + principal_name);
+    }
+    var principal_email = $("#extPrincipalMail").val().trim();
+    if (principal_email !== "") {
+      args_altname.push("email:" + principal_email);
+    }
+  }
+  if (args.length > 0) {
+    return (
+      "-addext extendedKeyUsage=" +
+      args.join(",") +
+      ' -addext subjectAltName="otherName:msUPN;' +
+      args_altname.join(",") +
+      '"'
+    );
+  }
+  return "";
+}
+
 function genx509Extensions() {
-  const list = ["extdigitalSignature", "extnonRepudiation", "extkeyEncipherment", "extdataEncipherment", "extkeyAgreement", "extkeyCertSign", "extcRLSign", "extencipherOnly"];
-  const prefix = "keyUsage"
+  const list = [
+    "extdigitalSignature",
+    "extnonRepudiation",
+    "extkeyEncipherment",
+    "extdataEncipherment",
+    "extkeyAgreement",
+    "extkeyCertSign",
+    "extcRLSign",
+    "extencipherOnly",
+  ];
+  const prefix = "keyUsage";
   var ku = genx509ExtCustom(list, prefix);
-  const list_ext = ["extserverAuth","extclientAuth", "extcodeSigning","extemailProtection", "exttimeStamping", "extOCSPSigning","extipsecIKE","extmsCodeInd","extmsCodeCom", "extmsCTLSign","extmsEFS"];
-  const prefix_ext = "extendedKeyUsage"
+  const list_ext = [
+    "extserverAuth",
+    "extclientAuth",
+    "extcodeSigning",
+    "extemailProtection",
+    "exttimeStamping",
+    "extOCSPSigning",
+    "extipsecIKE",
+    "extmsCodeInd",
+    "extmsCodeCom",
+    "extmsCTLSign",
+    "extmsEFS",
+  ];
+  const prefix_ext = "extendedKeyUsage";
   var ext = genx509ExtCustom(list_ext, prefix_ext);
   return ku + " " + ext;
 }
@@ -128,17 +181,17 @@ function genx509ExtCustom(list, prefix) {
   for (const l of list) {
     var selected = $("#" + l + " option:selected").text();
     if (selected === "Critical") {
-      args.push("critical")
+      args.push("critical");
     }
     if (selected !== "Not selected") {
-      var propName = $('label[for="' + l +'"]').text()
-      args.push(propName)
+      var propName = $('label[for="' + l + '"]').text();
+      args.push(propName);
     }
   }
   if (args.length > 0) {
     return "-addext   " + prefix + "=" + args.join(",");
   }
-  return ""
+  return "";
 }
 
 function genx509SubAltName() {
