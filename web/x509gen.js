@@ -1,4 +1,27 @@
 const DIGEST_LIST_CMD = "openssl dgst -list";
+const LIST_EXT = [
+    "extdigitalSignature",
+    "extnonRepudiation",
+    "extkeyEncipherment",
+    "extdataEncipherment",
+    "extkeyAgreement",
+    "extkeyCertSign",
+    "extcRLSign",
+    "extencipherOnly",
+  ];
+const LIST_EXT2 = [
+    "extserverAuth",
+    "extclientAuth",
+    "extcodeSigning",
+    "extemailProtection",
+    "exttimeStamping",
+    "extOCSPSigning",
+    "extipsecIKE",
+    "extmsCodeInd",
+    "extmsCodeCom",
+    "extmsCTLSign",
+    "extmsEFS",
+  ];
 
 function x509CertOnLoad() {
   populateDigestList();
@@ -146,33 +169,10 @@ function genx509Smartcard() {
 }
 
 function genx509Extensions() {
-  const list = [
-    "extdigitalSignature",
-    "extnonRepudiation",
-    "extkeyEncipherment",
-    "extdataEncipherment",
-    "extkeyAgreement",
-    "extkeyCertSign",
-    "extcRLSign",
-    "extencipherOnly",
-  ];
   const prefix = "keyUsage";
-  var ku = genx509ExtCustom(list, prefix);
-  const list_ext = [
-    "extserverAuth",
-    "extclientAuth",
-    "extcodeSigning",
-    "extemailProtection",
-    "exttimeStamping",
-    "extOCSPSigning",
-    "extipsecIKE",
-    "extmsCodeInd",
-    "extmsCodeCom",
-    "extmsCTLSign",
-    "extmsEFS",
-  ];
+  var ku = genx509ExtCustom(LIST_EXT, prefix);
   const prefix_ext = "extendedKeyUsage";
-  var ext = genx509ExtCustom(list_ext, prefix_ext);
+  var ext = genx509ExtCustom(LIST_EXT2, prefix_ext);
   return ku + " " + ext;
 }
 
@@ -246,4 +246,45 @@ function formatDateForOpenSSL(date) {
   var seconds = ("0" + date.getSeconds()).slice(-2);
 
   return year + month + day + hours + minutes + seconds + "Z";
+}
+
+function notSelectedForAllExt() {
+  $("#extbasicConstraints").val('Not selected');
+  $("#ext1basicConstraints").val('CA:FALSE')
+  $("#extPathlen").val("");
+  for (const field of LIST_EXT) {
+    $("#" + field).val('Not selected')
+  //   $('#' + field + ' option').filter(function() {
+  //     return $(this).text() === 'Not selected';
+  //   }).prop('selected', true);
+  }
+  for (const field of LIST_EXT2) {
+    $("#" + field).val('Not selected')
+  }
+}
+
+function fillCACert() {
+  notSelectedForAllExt();
+  $("#extbasicConstraints").val('Critical');
+  $("#ext1basicConstraints").val('CA:TRUE')
+  $("#extPathlen").val("2");
+  $("#extdigitalSignature").val('Selected');
+  $("#extkeyCertSign").val('Selected');
+  $("#extcRLSign").val('Selected');
+}
+
+function fillTlsServCert() {
+  notSelectedForAllExt();
+}
+
+function fillTlsClientCert() {
+  notSelectedForAllExt();
+}
+
+function fillCAint() {
+  notSelectedForAllExt();
+}
+
+function fillSmartcard() {
+  notSelectedForAllExt();
 }
