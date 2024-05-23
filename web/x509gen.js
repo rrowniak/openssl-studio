@@ -261,6 +261,7 @@ function notSelectedForAllExt() {
   for (const field of LIST_EXT2) {
     $("#" + field).val('Not selected')
   }
+  $("#extmsSmartcardLogin").val('Not selected');
 }
 
 function fillCACert() {
@@ -275,16 +276,40 @@ function fillCACert() {
 
 function fillTlsServCert() {
   notSelectedForAllExt();
+  $("#extbasicConstraints").val('Selected');
+  $("#ext1basicConstraints").val('CA:FALSE')
+  $("#extdigitalSignature").val('Selected');
+  $("#extkeyEncipherment").val('Selected');
+  $("#extserverAuth").val('Selected');
 }
 
 function fillTlsClientCert() {
   notSelectedForAllExt();
+  $("#extbasicConstraints").val('Selected');
+  $("#ext1basicConstraints").val('CA:FALSE')
+  $("#extdigitalSignature").val('Selected');
+  $("#extkeyEncipherment").val('Selected');
+  $("#extclientAuth").val('Selected');
 }
 
 function fillCAint() {
   notSelectedForAllExt();
+  $("#extbasicConstraints").val('Critical');
+  $("#ext1basicConstraints").val('CA:TRUE')
+  $("#extPathlen").val("2");
+  $("#extdigitalSignature").val('Selected');
+  $("#extkeyCertSign").val('Selected');
+  $("#extcRLSign").val('Selected');
 }
 
 function fillSmartcard() {
   notSelectedForAllExt();
+  $("#extbasicConstraints").val('Selected');
+  $("#ext1basicConstraints").val('CA:FALSE')
+  $("#extPathlen").val("0");
+  $("#extnonRepudiation").val('Critical');
+  $("#extdigitalSignature").val('Selected');
+  $("#extkeyEncipherment").val('Selected');
+  $("#extclientAuth").val('Selected');
+  $("#extmsSmartcardLogin").val('Selected');
 }
